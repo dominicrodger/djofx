@@ -17,6 +17,11 @@ urlpatterns = [
         name="djofx_account_autocategorise"
     ),
     url(
+        r'^category/add/$',
+        views.add_category,
+        name="djofx_category_add"
+    ),
+    url(
         r'^category/(?P<pk>\d+)/$',
         views.category_detail,
         name="djofx_category"

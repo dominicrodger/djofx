@@ -13,3 +13,9 @@ class CategoriseTransactionForm(forms.Form):
         queryset=models.TransactionCategory.objects.all(),
         required=True
     )
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = models.TransactionCategory
+        fields = ('name', 'is_void', )

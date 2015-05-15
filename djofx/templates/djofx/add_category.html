@@ -1,0 +1,16 @@
+{% extends 'djofx/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+<form method="post" action="." class="form">
+  {% csrf_token %}
+
+  {% bootstrap_form form %}
+  {% buttons %}
+  <button type="submit" class="btn btn-success">
+    Add Category
+  </button>
+  {% endbuttons %}
+</form>
+{% endblock %}
