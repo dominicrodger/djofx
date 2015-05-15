@@ -21,10 +21,16 @@ class Account(models.Model):
         return reverse('djofx_account_autocategorise', args=[self.pk, ])
 
     def earliest_transaction(self):
-        return self.transaction_set.all().order_by('date')[0].date
+        try:
+            return self.transaction_set.all().order_by('date')[0].date
+        except IndexError:
+            return None
 
     def latest_transaction(self):
-        return self.transaction_set.all().order_by('-date')[0].date
+        try:
+            return self.transaction_set.all().order_by('-date')[0].date
+        except IndexError:
+            return None
 
     def unverified_transactions(self):
         return self.transaction_set.filter(category_verified=False)
