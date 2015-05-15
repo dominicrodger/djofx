@@ -1,0 +1,3 @@
+include LICENSE
+include README.rst
+recursive-include djangolettings *.html *.png *.gif *.js *.css *.jpg *.jpeg *.svg *.py *.eot *.woff *.woff2 *.ttf
