@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, Http404
 from django.views.generic import FormView
 
 from djofx.forms import CategoriseTransactionForm
@@ -11,6 +12,24 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
     form_class = CategoriseTransactionForm
     template_name = "djofx/categorise.html"
     page_title = "Categorise payment"
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.get_transaction()
+        except IndexError:
+            messages.info(
+                self.request,
+                'No transactions need categorising.'
+            )
+            return HttpResponseRedirect(reverse('djofx_home'))
+        except models.Transaction.DoesNotExist:
+            raise Http404("Transaction not found.")
+
+        return super(CategoriseTransactionView, self).dispatch(
+            request,
+            *args,
+            **kwargs
+        )
 
     def get_transaction(self):
         if not hasattr(self, 'transaction_'):
