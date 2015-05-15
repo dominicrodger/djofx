@@ -13,13 +13,16 @@
   </span>
   {% endif %}
 </td>
-<td><a href="{{ transaction.transaction_category.get_absolute_url }}">{{ transaction.transaction_category }}</a> (<a href="{{ transaction.get_categorisation_url }}?keepreferrer">Fix</a>)</td>
 <td>
-  {% if transaction.category_verified %}
-  <div>
-    {% bootstrap_icon "ok" %}
-  </div>
+  {% if transaction.transaction_category %}
+  <a href="{{ transaction.transaction_category.get_absolute_url }}">{{ transaction.transaction_category }}</a>
   {% else %}
+  Uncategorised
+  {% endif %}
+  (<a href="{{ transaction.get_categorisation_url }}?keepreferrer">Fix</a>)</td>
+<td>
+  {% if not transaction.category_verified %}
+  {% if transaction.transaction_category %}
   <div>
     <form method="post" action="{% url 'djofx_transaction_verify' transaction.pk %}" class="update_row">
       {% csrf_token %}
@@ -29,6 +32,7 @@
       </button>
     </form>
   </div>
+  {% endif %}
   {% endif %}
   <div>
     <form method="post" action="{% url 'djofx_transaction_reguess' transaction.pk %}" class="update_row">
