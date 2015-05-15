@@ -39,7 +39,15 @@ class Account(models.Model):
 class TransactionCategory(models.Model):
     owner = models.ForeignKey(User)
     name = models.CharField(max_length=100)
-    is_void = models.BooleanField(default=False)
+    is_void = models.BooleanField(
+        default=False,
+        verbose_name='Tracks Internal Transfers',
+        help_text=(
+            "Transactions in internal transfer categories will be "
+            "hidden from charts - this is useful for transfers "
+            "between your accounts."
+        )
+    )
 
     def __unicode__(self):
         return self.name
