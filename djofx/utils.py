@@ -45,4 +45,7 @@ def autocategorise_transaction(transaction, classifier=None):
 
 
 def classify_text(text, classifier):
-    return classifier.classify(text)
+    try:
+        return classifier.classify(text)
+    except ValueError:
+        return None
