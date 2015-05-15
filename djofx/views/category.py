@@ -21,10 +21,16 @@ class CategoryTransactions(PageTitleMixin, ListView):
         )
         truncate_date = connection.ops.date_trunc_sql('month', 'date')
         qs = qs.extra({'month': truncate_date})
-        report = qs.values('month').annotate(Sum('amount'), Count('pk')).order_by('month')
+        report = qs.values('month').annotate(
+            Sum('amount'),
+            Count('pk')
+        ).order_by('month')
 
         report = [
-            (datetime.strptime(entry['month'], '%Y-%m-%d'), -1 * entry['amount__sum'])
+            (
+                datetime.strptime(entry['month'], '%Y-%m-%d'),
+                -1 * entry['amount__sum']
+            )
             for entry in report
         ]
         ctx['month_breakdown'] = report

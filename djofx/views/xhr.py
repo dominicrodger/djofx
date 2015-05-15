@@ -65,7 +65,9 @@ class TransactionReguess(XHRBasePostView):
 
         transaction.category_verified = False
         transaction.transaction_category = None
-        transaction.transaction_category = transaction.guess_category(classifier)
+        transaction.transaction_category = transaction.guess_category(
+            classifier
+        )
         transaction.save()
 
         return HttpResponse(

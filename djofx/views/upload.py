@@ -39,7 +39,9 @@ class UploadOFXFileView(PageTitleMixin, FormView):
                         date=transaction.date.date(),
                         payee=transaction.payee,
                         transaction_type=transaction.type,
-                        transaction_category=classify_text(transaction.payee, classifier)
+                        transaction_category=classify_text(
+                            transaction.payee, classifier
+                        )
                     )
                     valid_transactions += 1
                 except IntegrityError:
@@ -54,8 +56,11 @@ class UploadOFXFileView(PageTitleMixin, FormView):
         messages.add_message(
             self.request,
             status,
-            'Uploaded %d transactions successfully, skipped %d already seen transactions.'
-            % (valid_transactions, skipped_transactions)
+            (
+                'Uploaded %d transactions successfully, skipped %d '
+                'already seen transactions.'
+                % (valid_transactions, skipped_transactions)
+            )
         )
 
         return super(UploadOFXFileView, self).form_valid(form)

@@ -21,7 +21,9 @@ class AccountAutoCategoriseView(RedirectView):
 
         for transaction in transactions:
             old_category = transaction.transaction_category
-            transaction.transaction_category = transaction.guess_category(classifier)
+            transaction.transaction_category = transaction.guess_category(
+                classifier
+            )
             if old_category != transaction.transaction_category:
                 changes += 1
 
@@ -30,7 +32,8 @@ class AccountAutoCategoriseView(RedirectView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            '%d transactions automatically categorised (%d changed).' % (len(transactions), changes)
+            '%d transactions automatically categorised (%d changed).'
+            % (len(transactions), changes)
         )
 
         return account.get_absolute_url()

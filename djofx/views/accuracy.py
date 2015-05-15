@@ -21,7 +21,10 @@ class AccuracyView(PageTitleMixin, TemplateView):
         training_elements = training_data[:training_size]
         test_elements = training_data[training_size:]
 
-        sample_classifier = get_classifier(self.request.user, training_elements)
+        sample_classifier = get_classifier(
+            self.request.user,
+            training_elements
+        )
 
         ctx['accuracy'] = sample_classifier.accuracy(test_elements) * 100.0
 

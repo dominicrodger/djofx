@@ -52,7 +52,11 @@ class Transaction(models.Model):
     date = models.DateField()
     payee = models.CharField(max_length=255)
     transaction_type = models.CharField(max_length=255)
-    transaction_category = models.ForeignKey(TransactionCategory, blank=True, null=True)
+    transaction_category = models.ForeignKey(
+        TransactionCategory,
+        blank=True,
+        null=True
+    )
     category_verified = models.BooleanField(default=False)
 
     def guess_category(self, classifier=None):

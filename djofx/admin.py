@@ -20,7 +20,15 @@ admin.site.register(models.TransactionCategory, TransactionCategoryAdmin)
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('account', 'date', 'payee', 'transaction_type', 'amount', 'transaction_key', 'transaction_category', )
+    list_display = (
+        'account',
+        'date',
+        'payee',
+        'transaction_type',
+        'amount',
+        'transaction_key',
+        'transaction_category',
+    )
     search_fields = ('payee', )
     date_hierarchy = 'date'
     list_filter = ('account', 'category_verified', )

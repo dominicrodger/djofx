@@ -26,7 +26,11 @@ class HomePageView(PageTitleMixin, TemplateView):
             total=Sum('amount')
         ).order_by('-total')
         context['breakdown'] = [
-            (abs(item['total']), item['transaction_category__pk'], item['transaction_category__name'])
+            (
+                abs(item['total']),
+                item['transaction_category__pk'],
+                item['transaction_category__name']
+            )
             for item in breakdown
         ]
 
