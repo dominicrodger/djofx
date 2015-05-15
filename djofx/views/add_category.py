@@ -1,10 +1,8 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect, Http404
 from django.views.generic import FormView
 
 from djofx.forms import CategoryForm
-from djofx import models
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 

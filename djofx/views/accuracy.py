@@ -23,7 +23,6 @@ class AccuracyView(PageTitleMixin, TemplateView):
             )
             return HttpResponseRedirect(reverse('djofx_home'))
 
-
         return super(AccuracyView, self).dispatch(
             request,
             *args,
