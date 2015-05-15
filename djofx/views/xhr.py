@@ -8,6 +8,11 @@ from djofx import models
 
 class XHRBaseView(View):
     def handle(self, request, *args, **kwargs):
+        if request.user.is_anonymous():
+            return HttpResponseForbidden(
+                "This page requires a login."
+            )
+
         if not request.is_ajax():
             return HttpResponseForbidden(
                 "This page is not directly accessible."

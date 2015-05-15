@@ -4,10 +4,10 @@ from django.views.generic import FormView
 
 from djofx.forms import CategoriseTransactionForm
 from djofx import models
-from djofx.views.base import PageTitleMixin
+from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class CategoriseTransactionView(PageTitleMixin, FormView):
+class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
     form_class = CategoriseTransactionForm
     template_name = "djofx/categorise.html"
     page_title = "Categorise payment"

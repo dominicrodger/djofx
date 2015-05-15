@@ -1,11 +1,11 @@
 from django.db.models import Sum
 from django.views.generic import TemplateView
 from djofx.forms import OFXForm
-from djofx.views.base import PageTitleMixin
+from djofx.views.base import PageTitleMixin, UserRequiredMixin
 from djofx import models
 
 
-class HomePageView(PageTitleMixin, TemplateView):
+class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
     template_name = "djofx/home.html"
 
     def get_context_data(self, **kwargs):

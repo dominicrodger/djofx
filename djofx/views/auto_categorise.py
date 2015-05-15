@@ -2,9 +2,10 @@ from django.contrib import messages
 from django.views.generic import RedirectView
 from djofx import models
 from djofx.utils import get_classifier
+from djofx.views.base import UserRequiredMixin
 
 
-class AccountAutoCategoriseView(RedirectView):
+class AccountAutoCategoriseView(UserRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):

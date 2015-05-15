@@ -1,10 +1,10 @@
 from django.views.generic import ListView
 
 from djofx import models
-from djofx.views.base import PageTitleMixin
+from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class AccountTransactions(PageTitleMixin, ListView):
+class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
     template_name = 'djofx/account.html'
     paginate_by = 50

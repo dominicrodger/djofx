@@ -4,10 +4,10 @@ from django.db.models import Sum, Count
 from django.views.generic import ListView
 
 from djofx import models
-from djofx.views.base import PageTitleMixin
+from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class CategoryTransactions(PageTitleMixin, ListView):
+class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
     template_name = 'djofx/category.html'
     paginate_by = 50

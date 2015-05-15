@@ -7,10 +7,10 @@ from ofxparse import OfxParser
 from djofx.forms import OFXForm
 from djofx import models
 from djofx.utils import get_classifier, classify_text
-from djofx.views.base import PageTitleMixin
+from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class UploadOFXFileView(PageTitleMixin, FormView):
+class UploadOFXFileView(PageTitleMixin, UserRequiredMixin, FormView):
     form_class = OFXForm
     template_name = "djofx/upload.html"
     success_url = reverse_lazy("djofx_home")
