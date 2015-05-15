@@ -53,7 +53,7 @@ class CategoriseTransactionView(PageTitleMixin, FormView):
         transaction.category_verified = False
         transaction.save()
 
-        matching_transactions = models.Transaction.objects.filter(
+        models.Transaction.objects.filter(
             account__owner=self.request.user,
             payee=transaction.payee,
             category_verified=False

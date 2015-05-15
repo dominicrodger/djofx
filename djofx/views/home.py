@@ -28,6 +28,6 @@ class HomePageView(PageTitleMixin, TemplateView):
         context['breakdown'] = [
             (abs(item['total']), item['transaction_category__pk'], item['transaction_category__name'])
             for item in breakdown
-         ]
+        ]
 
         return context

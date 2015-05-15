@@ -1,6 +1,7 @@
 from django.contrib import admin
 from djofx import models
 
+
 class AccountAdmin(admin.ModelAdmin):
     list_display = ('name', 'owner', )
     search_fields = ('name', )

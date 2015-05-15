@@ -44,7 +44,7 @@ class UploadOFXFileView(PageTitleMixin, FormView):
                     valid_transactions += 1
                 except IntegrityError:
                     # We've seen this transaction before
-                    skipped_transactions +=1
+                    skipped_transactions += 1
 
         status = messages.SUCCESS
 

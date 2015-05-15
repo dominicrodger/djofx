@@ -20,7 +20,7 @@ class CategoryTransactions(PageTitleMixin, ListView):
             transaction_category=self.get_category()
         )
         truncate_date = connection.ops.date_trunc_sql('month', 'date')
-        qs = qs.extra({'month':truncate_date})
+        qs = qs.extra({'month': truncate_date})
         report = qs.values('month').annotate(Sum('amount'), Count('pk')).order_by('month')
 
         report = [
