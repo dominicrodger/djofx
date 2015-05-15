@@ -2,7 +2,6 @@ from django.views.generic import TemplateView
 from operator import itemgetter
 from random import shuffle
 
-from djofx import models
 from djofx.utils import get_classifier, get_training_data
 from djofx.views.base import PageTitleMixin
 

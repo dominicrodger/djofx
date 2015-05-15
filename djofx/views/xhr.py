@@ -2,17 +2,8 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import View
 from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.views.generic import TemplateView, FormView, ListView, RedirectView
-from ofxparse import OfxParser
-from operator import itemgetter
-from random import shuffle
 
-from djofx.forms import OFXForm, CategoriseTransactionForm
 from djofx import models
-from djofx.utils import get_classifier, get_training_data
-from djofx.views.accuracy import AccuracyView
-from djofx.views.base import PageTitleMixin
-
 
 
 class XHRBaseView(View):

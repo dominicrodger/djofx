@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.contrib import messages
 from django.views.generic import RedirectView
 from djofx import models
