@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from operator import itemgetter
 from random import shuffle
@@ -9,6 +12,23 @@ from djofx.views.base import PageTitleMixin
 class AccuracyView(PageTitleMixin, TemplateView):
     template_name = 'djofx/accuracy.html'
     page_title = 'Classifier Accuracy'
+
+    def dispatch(self, request, *args, **kwargs):
+        training_data = get_training_data(self.request.user)
+
+        if not training_data:
+            messages.info(
+                self.request,
+                'No transactions available for classifying.'
+            )
+            return HttpResponseRedirect(reverse('djofx_home'))
+
+
+        return super(AccuracyView, self).dispatch(
+            request,
+            *args,
+            **kwargs
+        )
 
     def get_context_data(self, **kwargs):
         ctx = super(AccuracyView, self).get_context_data(**kwargs)
