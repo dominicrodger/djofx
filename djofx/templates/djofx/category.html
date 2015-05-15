@@ -1,0 +1,27 @@
+{% extends 'djofx/base.html' %}
+
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div id="placeholder" style="height:300px"></div>
+
+<hr />
+
+<script src="{% static 'djofx/bar.js' %}"></script>
+
+<script type="text/javascript">
+  var data = [
+  {% for date, sum in month_breakdown %}
+  [get_date({{ date.year }}, {{ date.month }}), {{ sum }}]
+  {% if not forloop.last %},{% endif %}
+  {% endfor %}
+  ];
+</script>
+
+
+
+{% include "djofx/_transaction_list.html" %}
+
+{% endblock %}

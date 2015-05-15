@@ -1,0 +1,41 @@
+{% extends 'djofx/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+
+<form method="post" action="." enctype="multipart/form-data" class="form">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label class="control-label" for="id_category">Account</label>
+    <p class="form-control-static">
+      <a href="{{ transaction.account.get_absolute_url }}">
+        {{ transaction.account }}
+      </a>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="id_category">Payee</label>
+    <p class="form-control-static">{{ transaction.payee }}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="id_category">Date</label>
+    <p class="form-control-static">{{ transaction.date|date:"l, jS F Y" }}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="id_category">Amount</label>
+    <p class="form-control-static">&pound;{{ transaction.absolute_amount }}</p>
+  </div>
+
+  {% bootstrap_form form %}
+  {% buttons %}
+  <button type="submit" class="btn btn-success">
+    Categorise
+  </button>
+  {% endbuttons %}
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% load bootstrap3 %}
+
+<table class="table">
+  <tr>
+    <th>Date</th>
+    <th>Payee</th>
+    <th>Amount</th>
+    <th>Category</th>
+    <th width="30%"></th>
+  </tr>
+  {% for transaction in object_list %}
+  <tr>
+    {% include "djofx/_transaction_row.html" %}
+  </tr>
+  {% endfor %}
+</table>
+
+{% if page_obj.has_other_pages %}
+<div class="text-center">
+  {% bootstrap_pagination page_obj %}
+</div>
+{% endif %}

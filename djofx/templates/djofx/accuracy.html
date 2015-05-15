@@ -1,0 +1,72 @@
+{% extends 'djofx/base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <h2>Accuracy</h2>
+
+    <p class="lead">
+      The overall accuracy of your transaction classifier is currently
+      <strong>{{ accuracy|floatformat:2 }}%</strong>.
+    </p>
+
+    <p class="text-muted">
+      The accuracy is computed by splitting your transactions into two
+      groups - a training group and a test group. A classifier is
+      built using the training group data only, and then is tested on
+      the transactions in the test group. Since the transaction data
+      is shuffled before splitting into groups, the accuracy of the
+      classifier may vary between page loads.
+    </p>
+
+    <h3>Sample Results</h3>
+
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Payee</th>
+        <th>Actual Category</th>
+        <th>Guessed Category</th>
+        <th>Confidence</th>
+      </tr>
+      {% for entry in samples %}
+      <tr>
+        <td>{{ entry.payee }}</td>
+        <td>
+          {{ entry.actual_result }}
+          {% if entry.result != entry.actual_result %}
+          <small>({{ entry.actual_confidence|floatformat:2 }}%)</small>
+          {% endif %}
+        </td>
+        <td class="{% if entry.result == entry.actual_result %}success{% else %}danger{% endif %}">{{ entry.result }}</td>
+        <td>{{ entry.confidence|floatformat:2 }}%</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+  <div class="col-md-4">
+    <h2>Relevant Features</h2>
+
+    <table class="table">
+      <tr>
+        <th>Feature</th>
+        <th>Absence/Presence</th>
+      </tr>
+      {% for feature, presence in keywords %}
+      <tr>
+        <td>
+          {{ feature }}
+        </td>
+        <td>
+          {% if presence %}Presence{% else %}Absence{% endif %}
+        </td>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}

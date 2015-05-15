@@ -1,0 +1,72 @@
+{% extends 'djofx/base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <h2>Accounts</h2>
+
+    <table class="table table-striped">
+      <tr>
+        <th>Account</th>
+        <th>Earliest</th>
+        <th>Latest</th>
+      </tr>
+      {% for account in accounts %}
+      <tr>
+        <td>
+          <a href="{{ account.get_absolute_url }}">{{ account }}</a>
+          <small class="text-muted">
+            (<a href="{{ account.get_unverified_url }}">{{ account.unverified_transactions.count }} unverified transactions</a>)
+          </small>
+        </td>
+        <td>{{ account.earliest_transaction }}</td>
+        <td>{{ account.latest_transaction }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <hr />
+
+    <h2>Upload OFX File</h2>
+    <form method="post" action="{% url 'djofx_upload' %}" enctype="multipart/form-data" class="form">
+      {% csrf_token %}
+
+      {% bootstrap_form form %}
+      {% buttons %}
+      <button type="submit" class="btn btn-success">
+        Upload OFX File
+      </button>
+      {% endbuttons %}
+    </form>
+
+  </div>
+  <div class="col-md-6">
+    <h2>Spending Breakdown</h2>
+
+    <div id="placeholder" style="height:300px"></div>
+
+    <table class="table table-striped">
+    {% for total, pk, item in breakdown %}
+    <tr>
+      <th><a href="{% url 'djofx_category' pk %}">{{ item }}</a></th>
+      <td>&pound;{{ total }}<td>
+    </tr>
+    {% endfor %}
+    </table>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  var data = [
+  {% for total, pk, item in breakdown %}
+  {label: "{{ item }}", data: {{ total }}}{% if not forloop.last %},{% endif %}
+  {% endfor %}
+  ];
+</script>
+<script src="{% static 'djofx/pie.js' %}"></script>
+
+{% endblock %}

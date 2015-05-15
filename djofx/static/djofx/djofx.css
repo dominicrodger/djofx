@@ -1,0 +1,8 @@
+td.legendLabel {
+    padding-left: 10px;
+}
+
+td div {
+    float: left;
+    margin-right: 10px;
+}
