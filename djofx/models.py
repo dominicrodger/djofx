@@ -56,6 +56,7 @@ class TransactionCategory(models.Model):
         return reverse('djofx_category', args=[self.pk, ])
 
     class Meta:
+        verbose_name_plural = 'Transaction categories'
         ordering = ('name', )
 
 
