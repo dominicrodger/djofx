@@ -59,9 +59,18 @@ class TransactionReguess(XHRBasePostView):
 
         transaction.category_verified = False
         transaction.transaction_category = None
-        transaction.transaction_category = transaction.guess_category(
+        transaction.save()
+
+        category = transaction.guess_category(
             classifier
         )
-        transaction.save()
+
+        rows = models.Transaction.objects.filter(
+            account__owner=self.request.user,
+            payee=transaction.payee,
+            category_verified=False
+        ).update(
+            transaction_category=category
+        )
 
         return HttpResponse('OK')
