@@ -1,3 +1,14 @@
+function refresh_table_contents() {
+    $.ajax({
+        type: "GET",
+        url: window.location.href,
+        success: function(data) {
+            $("#transaction_list").html(data);
+            bind_form_handlers();
+        }
+    });
+}
+
 function handle_form_submission() {
     var theform = $(this);
     theform.find("button").prop("disabled", true);
@@ -6,10 +17,7 @@ function handle_form_submission() {
         url: $(this).attr('action'),
         data: $(this).serialize(),
         success: function(data) {
-            var therow = theform.closest("tr");
-            $(therow).html(data);
-            theform.find("button").prop("disabled", false);
-            bind_form_handlers();
+            refresh_table_contents();
         }
     });
 

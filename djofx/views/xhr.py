@@ -1,7 +1,5 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import View
-from django.template import RequestContext
-from django.template.loader import render_to_string
 
 from djofx import models
 
@@ -42,16 +40,7 @@ class TransactionMarkVerified(XHRBasePostView):
             category_verified=True
         )
 
-        transaction = models.Transaction.objects.get(pk=transaction.pk)
-
-        return HttpResponse(
-            render_to_string(
-                "djofx/_transaction_row.html",
-                RequestContext(request, {
-                    "transaction": transaction
-                })
-            )
-        )
+        return HttpResponse('OK')
 
 
 class TransactionReguess(XHRBasePostView):
@@ -75,11 +64,4 @@ class TransactionReguess(XHRBasePostView):
         )
         transaction.save()
 
-        return HttpResponse(
-            render_to_string(
-                "djofx/_transaction_row.html",
-                RequestContext(request, {
-                    "transaction": transaction
-                })
-            )
-        )
+        return HttpResponse('OK')

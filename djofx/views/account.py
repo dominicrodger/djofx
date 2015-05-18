@@ -6,8 +6,13 @@ from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
-    template_name = 'djofx/account.html'
     paginate_by = 50
+
+    def get_template_names(self):
+        if not self.request.is_ajax():
+            return ['djofx/account.html', ]
+        else:
+            return ['djofx/_transaction_list.html', ]
 
     def get_context_data(self, **kwargs):
         ctx = super(AccountTransactions, self).get_context_data(**kwargs)
