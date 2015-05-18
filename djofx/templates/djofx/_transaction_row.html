@@ -27,7 +27,7 @@
     <form method="post" action="{% url 'djofx_transaction_verify' transaction.pk %}" class="update_row">
       {% csrf_token %}
       <button type="submit" class="btn btn-success btn-xs">
-        {% bootstrap_icon "ok-circle" %}
+        {% bootstrap_icon "thumbs-up" %}
         Mark verified
       </button>
     </form>
