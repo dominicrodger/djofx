@@ -26,7 +26,6 @@ urlpatterns = [
         views.category_detail,
         name="djofx_category"
     ),
-    url(r'^categorise/$', views.categorise, name="djofx_categorise"),
     url(
         r'^categorise/(?P<pk>\d+)/',
         views.categorise,

@@ -18,7 +18,16 @@
 
   <div class="form-group">
     <label class="control-label" for="id_category">Payee</label>
-    <p class="form-control-static">{{ transaction.payee }}</p>
+    <p class="form-control-static">
+      {{ transaction.payee }}
+      {% if related_transactions %}
+      <span class="text-muted">
+      (Also categorising {{ related_transactions }} other
+      transaction{{ related_transactions|pluralize }} to
+      the same payee)
+      {% endif %}
+      </span>
+    </p>
   </div>
 
   <div class="form-group">

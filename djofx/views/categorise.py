@@ -33,21 +33,22 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
 
     def get_transaction(self):
         if not hasattr(self, 'transaction_'):
-            if 'pk' in self.kwargs:
-                self.transaction_ = models.Transaction.objects.get(
-                    account__owner=self.request.user,
-                    pk=self.kwargs['pk']
-                )
-            else:
-                self.transaction_ = models.Transaction.objects.filter(
-                    account__owner=self.request.user,
-                    category_verified=False
-                ).order_by('?')[0]
+            self.transaction_ = models.Transaction.objects.get(
+                account__owner=self.request.user,
+                pk=self.kwargs['pk']
+            )
         return self.transaction_
 
     def get_context_data(self, **kwargs):
         ctx = super(CategoriseTransactionView, self).get_context_data(**kwargs)
         ctx['transaction'] = self.get_transaction()
+        num_similar = self.get_similar_transactions().count()
+
+        if not self.get_transaction().category_verified:
+            num_similar -= 1
+
+        ctx['related_transactions'] = num_similar
+
         return ctx
 
     def get_initial(self):
@@ -60,23 +61,24 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
 
         return {
             'next_url': next_url,
-            'transaction_id': transaction.pk,
             'category': transaction.guess_category()
         }
 
-    def form_valid(self, form):
-        transaction = models.Transaction.objects.get(
-            pk=form.cleaned_data['transaction_id'],
-            account__owner=self.request.user
-        )
-        transaction.category_verified = False
-        transaction.save()
-
-        models.Transaction.objects.filter(
+    def get_similar_transactions(self):
+        transaction = self.get_transaction()
+        return models.Transaction.objects.filter(
             account__owner=self.request.user,
             payee=transaction.payee,
             category_verified=False
-        ).update(
+        )
+
+    def form_valid(self, form):
+        transaction = self.get_transaction()
+        transaction.category_verified = False
+        transaction.save()
+
+        related_transactions = self.get_similar_transactions()
+        related_transactions.update(
             transaction_category=form.cleaned_data['category'],
             category_verified=True
         )
