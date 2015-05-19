@@ -61,7 +61,7 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
 
         return {
             'next_url': next_url,
-            'category': transaction.guess_category()
+            'category': transaction.transaction_category
         }
 
     def get_similar_transactions(self):
