@@ -19,7 +19,11 @@
   {% else %}
   Uncategorised
   {% endif %}
-  (<a href="{{ transaction.get_categorisation_url }}?keepreferrer">Fix</a>)</td>
+  <button type="button" class="btn btn-warning btn-xs payment-categorise-modal-btn" data-toggle="modal" data-target=".payment-category-modal-sm" data-url="{% url 'djofx_categorise' transaction.pk %}" data-category="{{ transaction.transaction_category.pk }}" data-payee="{{ transaction.payee }}">
+    {% bootstrap_icon "pencil" %}
+    Fix
+  </button>
+</td>
 <td>
   {% if not transaction.category_verified %}
   {% if transaction.transaction_category %}

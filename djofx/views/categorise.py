@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import FormView
 
 from djofx.forms import CategoriseTransactionForm
@@ -83,6 +83,9 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
             category_verified=True
         )
 
+        if self.request.is_ajax():
+            return HttpResponse('OK')
+
         messages.add_message(
             self.request,
             messages.SUCCESS,
@@ -92,7 +95,7 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
         if form.cleaned_data['next_url']:
             self.success_url = form.cleaned_data['next_url']
         else:
-            self.success_url = reverse('djofx_categorise')
+            self.success_url = reverse('djofx_home')
 
         return super(CategoriseTransactionView, self).form_valid(form)
 
