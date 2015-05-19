@@ -4,17 +4,24 @@ from django.db.models import Sum, Count
 from django.views.generic import ListView
 
 from djofx import models
+from djofx.forms import CategoriseTransactionForm
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
 class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
-    template_name = 'djofx/category.html'
     paginate_by = 50
+
+    def get_template_names(self):
+        if not self.request.is_ajax():
+            return ['djofx/category.html', ]
+        else:
+            return ['djofx/_transaction_list.html', ]
 
     def get_context_data(self, **kwargs):
         ctx = super(CategoryTransactions, self).get_context_data(**kwargs)
         ctx['category'] = self.get_category()
+        ctx['categorise_form'] = CategoriseTransactionForm()
 
         qs = models.Transaction.objects.filter(
             transaction_category=self.get_category()
