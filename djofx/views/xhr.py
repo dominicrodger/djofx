@@ -65,7 +65,7 @@ class TransactionReguess(XHRBasePostView):
             classifier
         )
 
-        rows = models.Transaction.objects.filter(
+        models.Transaction.objects.filter(
             account__owner=self.request.user,
             payee=transaction.payee,
             category_verified=False
