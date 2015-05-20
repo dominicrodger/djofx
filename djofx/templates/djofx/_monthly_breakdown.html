@@ -5,7 +5,7 @@
 <script type="text/javascript">
   var data = [
   {% for date, sum in month_breakdown %}
-  ["{{ date|date:"M Y" }}", {{ sum }}]
+  [[{{ date.year }}, {{ date.month }}], {{ sum }}]
   {% if not forloop.last %},{% endif %}
   {% endfor %}
   ];
