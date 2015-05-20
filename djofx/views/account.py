@@ -38,6 +38,7 @@ class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
             qs = qs.filter(
                 category_verified=False
             )
+            qs = qs.order_by('amount')
 
         return qs
 
