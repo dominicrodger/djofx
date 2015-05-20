@@ -1,6 +1,7 @@
 {% extends 'djofx/base.html' %}
 
 {% load bootstrap3 %}
+{% load staticfiles %}
 
 {% block content %}
 
@@ -9,11 +10,5 @@
 <hr />
 
 {% include "djofx/_monthly_breakdown.html" %}
-
-<div id="transaction_list">
-  {% include "djofx/_transaction_list.html" %}
-</div>
-
-{% include "djofx/_transaction_categorise_modal.html" %}
 
 {% endblock %}

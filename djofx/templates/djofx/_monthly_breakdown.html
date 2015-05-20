@@ -1,0 +1,12 @@
+{% load staticfiles %}
+
+<script src="{% static 'djofx/bar.js' %}"></script>
+
+<script type="text/javascript">
+  var data = [
+  {% for date, sum in month_breakdown %}
+  ["{{ date|date:"M Y" }}", {{ sum }}]
+  {% if not forloop.last %},{% endif %}
+  {% endfor %}
+  ];
+</script>

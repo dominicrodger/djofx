@@ -5,6 +5,7 @@ from djofx.views.auto_categorise import AccountAutoCategoriseView
 from djofx.views.category import CategoryTransactions
 from djofx.views.categorise import CategoriseTransactionView
 from djofx.views.home import HomePageView
+from djofx.views.monthly import MonthlyTransactionsView
 from djofx.views.upload import UploadOFXFileView
 from djofx.views.xhr import TransactionMarkVerified, TransactionReguess
 
@@ -16,6 +17,7 @@ add_category = AddCategoryView.as_view()
 categorise = CategoriseTransactionView.as_view()
 category_detail = CategoryTransactions.as_view()
 home_page = HomePageView.as_view()
+monthly_breakdown = MonthlyTransactionsView.as_view()
 transaction_mark_verified = TransactionMarkVerified.as_view()
 transaction_reguess = TransactionReguess.as_view()
 upload_ofx_file = UploadOFXFileView.as_view()

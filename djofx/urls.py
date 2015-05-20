@@ -42,4 +42,9 @@ urlpatterns = [
         name="djofx_transaction_reguess"
     ),
     url(r'^accuracy/', views.accuracy, name="djofx_accuracy"),
+    url(
+        r'^monthly/$',
+        views.monthly_breakdown,
+        name="djofx_monthly"
+    ),
 ]

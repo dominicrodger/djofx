@@ -1,30 +1,20 @@
-function get_date(year, month) {
-    return new Date(year, month - 1, 1).getTime();
+function plot_bar_chart() {
+    $.plot("#placeholder", [ data ], {
+	series: {
+	    bars: {
+		show: true,
+		barWidth: 0.6,
+		align: "center"
+	    }
+	},
+	xaxis: {
+	    mode: "categories",
+	    tickLength: 0
+	},
+        yaxis: {
+            tickFormatter: function(val, axis) { return "&pound;" + parseFloat(val).toFixed(0); }
+        }
+    });
 }
 
-$(document).ready(function() {
-    $.plot(
-        $("#placeholder"), [
-            {
-                data: data,
-            }
-        ],
-        {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            },
-            xaxis: {
-                mode: "time",
-                timeformat: "%b-%Y",
-                tickSize: [1, "month"],
-                axisLabel: 'Month',
-            },
-            yaxis: {
-                tickFormatter: function(val, axis) { return "&pound;" + parseFloat(val).toFixed(0); }
-            }
-        }
-    );
-});
+$(document).ready(plot_bar_chart);
