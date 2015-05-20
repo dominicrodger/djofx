@@ -1,6 +1,10 @@
 {% extends 'djofx/base.html' %}
 
-{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block extrajs %}
+<script src="{% static 'djofx/bar.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 
