@@ -11,14 +11,7 @@ class MonthlyTransactionsView(PageTitleMixin, UserRequiredMixin, TemplateView):
     template_name = 'djofx/monthly.html'
     page_title = 'Monthly Breakdown'
 
-    def get_context_data(self, **kwargs):
-        ctx = super(MonthlyTransactionsView, self).get_context_data(**kwargs)
-
-        qs = models.Transaction.objects.filter(
-            account__owner=self.request.user,
-            amount__gte=0,
-            transaction_category__is_void=False
-        )
+    def qs_to_report(self, qs):
         truncate_date = connection.ops.date_trunc_sql('month', 'date')
         qs = qs.extra({'month': truncate_date})
         report = qs.values('month').annotate(
@@ -33,6 +26,21 @@ class MonthlyTransactionsView(PageTitleMixin, UserRequiredMixin, TemplateView):
             )
             for entry in report
         ]
-        ctx['month_breakdown'] = report
+
+        return report
+
+    def get_outgoings(self):
+        qs = models.Transaction.objects.filter(
+            account__owner=self.request.user,
+            amount__gte=0,
+            transaction_category__is_void=False
+        )
+
+        return self.qs_to_report(qs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(MonthlyTransactionsView, self).get_context_data(**kwargs)
+
+        ctx['month_breakdown'] = self.get_outgoings()
 
         return ctx
