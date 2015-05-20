@@ -61,4 +61,3 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     def get_page_title(self):
         object = self.get_category()
         return 'Category (%s)' % object.name
-category_detail = CategoryTransactions.as_view()
