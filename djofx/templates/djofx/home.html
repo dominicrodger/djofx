@@ -51,7 +51,11 @@
     <table class="table table-striped">
     {% for total, pk, item in breakdown %}
     <tr>
+      {% if pk != 0 %}
       <th><a href="{% url 'djofx_category' pk %}">{{ item }}</a></th>
+      {% else %}
+      <th>{{ item }}</th>
+      {% endif %}
       <td>&pound;{{ total }}<td>
     </tr>
     {% endfor %}
