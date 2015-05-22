@@ -59,6 +59,28 @@ function handle_modal_submission() {
     return false;
 }
 
+function get_date(year, month) {
+    return new Date(year, month - 1, 1).getTime();
+}
+
+function flotise_years_and_months(data) {
+    var rval = []
+
+    for (var i = 0; i < data.length; i += 1) {
+        var year_and_month = data[i][0];
+        var value = data[i][1];
+
+        rval.push(
+            [
+                get_date(year_and_month[0], year_and_month[1]),
+                value
+            ]
+        );
+    }
+
+    return rval;
+}
+
 $(document).ready(function() {
     bind_handlers_in_transaction_list();
     $("#transaction_inline_form").submit(handle_modal_submission);
