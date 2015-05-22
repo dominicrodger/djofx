@@ -37,16 +37,22 @@ class Account(models.Model):
 
 
 class TransactionCategory(models.Model):
+    OUTGOINGS = 'out'
+    INCOME = 'inc'
+    INTERNAL_TRANSFER = 'int'
+
+    TRANSACTION_TYPES = (
+        (OUTGOINGS, 'Outgoings'),
+        (INCOME, 'Income'),
+        (INTERNAL_TRANSFER, 'Internal Transfer'),
+    )
+
     owner = models.ForeignKey(User)
     name = models.CharField(max_length=100)
-    is_void = models.BooleanField(
-        default=False,
-        verbose_name='Tracks Internal Transfers',
-        help_text=(
-            "Transactions in internal transfer categories will be "
-            "hidden from charts - this is useful for transfers "
-            "between your accounts."
-        )
+    category_type = models.CharField(
+        max_length=3,
+        choices=TRANSACTION_TYPES,
+        default=OUTGOINGS
     )
 
     def __unicode__(self):

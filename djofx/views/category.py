@@ -36,7 +36,7 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
         report = [
             (
                 datetime.strptime(entry['month'], '%Y-%m-%d'),
-                -1 * entry['amount__sum']
+                entry['amount__sum']
             )
             for entry in report
         ]

@@ -9,9 +9,10 @@ admin.site.register(models.Account, AccountAdmin)
 
 
 class TransactionCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'is_void')
+    list_display = ('name', 'owner', 'category_type')
     search_fields = ('name', )
-    fields = ('name', 'is_void', )
+    fields = ('name', 'category_type', )
+    list_filter = ('category_type', )
 
     def save_model(self, request, obj, form, change):
         obj.owner = request.user

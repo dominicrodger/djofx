@@ -17,4 +17,4 @@ class CategoriseTransactionForm(forms.Form):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = models.TransactionCategory
-        fields = ('name', 'is_void', )
+        fields = ('name', 'category_type', )

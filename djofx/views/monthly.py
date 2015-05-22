@@ -29,11 +29,10 @@ class MonthlyTransactionsView(PageTitleMixin, UserRequiredMixin, TemplateView):
 
         return report
 
-    def get_outgoings(self):
+    def get_report_by_type(self, type):
         qs = models.Transaction.objects.filter(
             account__owner=self.request.user,
-            amount__gte=0,
-            transaction_category__is_void=False
+            transaction_category__category_type=type
         )
 
         return self.qs_to_report(qs)
@@ -41,6 +40,11 @@ class MonthlyTransactionsView(PageTitleMixin, UserRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super(MonthlyTransactionsView, self).get_context_data(**kwargs)
 
-        ctx['month_breakdown'] = self.get_outgoings()
+        ctx['outgoings'] = self.get_report_by_type(
+            models.TransactionCategory.OUTGOINGS
+        )
+        ctx['income'] = self.get_report_by_type(
+            models.TransactionCategory.INCOME
+        )
 
         return ctx

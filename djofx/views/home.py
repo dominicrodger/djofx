@@ -28,9 +28,11 @@ class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
             total=Sum('amount')
         )
 
+        out = models.TransactionCategory.OUTGOINGS
+
         breakdown = models.Transaction.objects.filter(
             amount__lt=0,
-            transaction_category__is_void=False,
+            transaction_category__category_type=out,
             date__gte=cutoff
         ).values(
             'transaction_category__pk',

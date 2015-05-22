@@ -17,14 +17,24 @@ urlpatterns = [
         name="djofx_account_autocategorise"
     ),
     url(
-        r'^category/add/$',
+        r'^categories/$',
+        views.category_list,
+        name="djofx_categories"
+    ),
+    url(
+        r'^categories/add/$',
         views.add_category,
         name="djofx_category_add"
     ),
     url(
-        r'^category/(?P<pk>\d+)/$',
+        r'^categories/(?P<pk>\d+)/$',
         views.category_detail,
         name="djofx_category"
+    ),
+    url(
+        r'^categories/(?P<pk>\d+)/edit/$',
+        views.edit_category,
+        name="djofx_category_edit"
     ),
     url(
         r'^categorise/(?P<pk>\d+)/',
