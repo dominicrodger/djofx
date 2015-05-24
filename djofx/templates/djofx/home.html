@@ -3,6 +3,11 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
+{% block extrajs %}
+<script src="{% static 'djofx/charts/overall_pie.js' %}"></script>
+{% endblock %}
+
+
 {% block content %}
 <div class="row">
   <div class="col-md-6">
@@ -71,6 +76,5 @@
   {% endfor %}
   ];
 </script>
-<script src="{% static 'djofx/pie.js' %}"></script>
 
 {% endblock %}
