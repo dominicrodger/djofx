@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from django.db import connection
 from django.db.models import Sum, Count
@@ -36,11 +37,14 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
         report = [
             (
                 datetime.strptime(entry['month'], '%Y-%m-%d'),
-                entry['amount__sum']
+                float(entry['amount__sum'])
             )
             for entry in report
         ]
-        ctx['month_breakdown'] = report
+        report = [((thedate.year, thedate.month), value)
+                  for thedate, value in report]
+
+        ctx['month_breakdown'] = json.dumps(report)
 
         return ctx
 

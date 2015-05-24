@@ -12,7 +12,9 @@
 
 <hr />
 
-{% include "djofx/_monthly_breakdown.html" with report=month_breakdown %}
+<script type="text/javascript">
+  var data = {{ month_breakdown }};
+</script>
 
 <div id="transaction_list">
   {% include "djofx/_transaction_list.html" %}
