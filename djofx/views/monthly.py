@@ -1,4 +1,5 @@
 import json
+from datetime import date, timedelta
 from django.views.generic import TemplateView
 
 from djofx import models
@@ -11,9 +12,13 @@ class MonthlyTransactionsView(PageTitleMixin, UserRequiredMixin, TemplateView):
     page_title = 'Monthly Breakdown'
 
     def get_report_by_type(self, type):
+        cutoff = date.today() - timedelta(days=180)
+        cutoff = cutoff.replace(day=1)
+
         qs = models.Transaction.objects.filter(
             account__owner=self.request.user,
-            transaction_category__category_type=type
+            transaction_category__category_type=type,
+            date__gte=cutoff
         )
 
         return json.dumps(qs_to_monthly_report(qs, type))
