@@ -1,11 +1,9 @@
 import json
-from datetime import datetime
-from django.db import connection
-from django.db.models import Sum, Count
 from django.views.generic import ListView
 
 from djofx import models
 from djofx.forms import CategoriseTransactionForm
+from djofx.utils import qs_to_monthly_report
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
@@ -21,29 +19,14 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super(CategoryTransactions, self).get_context_data(**kwargs)
-        ctx['category'] = self.get_category()
+        category = self.get_category()
+        ctx['category'] = category
         ctx['categorise_form'] = CategoriseTransactionForm()
 
         qs = models.Transaction.objects.filter(
-            transaction_category=self.get_category()
+            transaction_category=category
         )
-        truncate_date = connection.ops.date_trunc_sql('month', 'date')
-        qs = qs.extra({'month': truncate_date})
-        report = qs.values('month').annotate(
-            Sum('amount'),
-            Count('pk')
-        ).order_by('month')
-
-        report = [
-            (
-                datetime.strptime(entry['month'], '%Y-%m-%d'),
-                float(entry['amount__sum'])
-            )
-            for entry in report
-        ]
-        report = [((thedate.year, thedate.month), value)
-                  for thedate, value in report]
-
+        report = qs_to_monthly_report(qs, category.category_type)
         ctx['month_breakdown'] = json.dumps(report)
 
         return ctx

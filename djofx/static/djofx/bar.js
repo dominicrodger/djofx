@@ -13,9 +13,7 @@ function plot_bar_chart() {
             tickSize: [1, "month"]
         },
         yaxis: {
-            tickFormatter: function(val, axis) { return "&pound;" + parseFloat(val).toFixed(0); },
-            transform: function (v) { return -v; },
-            inverseTransform: function (v) { return -v; }
+            tickFormatter: function(val, axis) { return "&pound;" + parseFloat(val).toFixed(0); }
         }
     });
 }
