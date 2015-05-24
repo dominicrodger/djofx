@@ -13,7 +13,7 @@ function plot_bar_chart() {
             tickSize: [1, "month"]
         },
         yaxis: {
-            tickFormatter: function(val, axis) { return "&pound;" + parseFloat(val).toFixed(0); }
+            tickFormatter: format_currency_value
         }
     });
 }

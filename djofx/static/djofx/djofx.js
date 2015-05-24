@@ -81,6 +81,10 @@ function flotise_years_and_months(data) {
     return rval;
 }
 
+function format_currency_value(val, axis) {
+    return "&pound;" + parseFloat(val).toLocaleString();
+}
+
 $(document).ready(function() {
     bind_handlers_in_transaction_list();
     $("#transaction_inline_form").submit(handle_modal_submission);
