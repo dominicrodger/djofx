@@ -70,11 +70,7 @@
 </div>
 
 <script type="text/javascript">
-  var data = [
-  {% for total, pk, item in breakdown %}
-  {label: "{{ item }}", data: {{ total }}}{% if not forloop.last %},{% endif %}
-  {% endfor %}
-  ];
+  var data = {{ chart_data|safe }};
 </script>
 
 {% endblock %}

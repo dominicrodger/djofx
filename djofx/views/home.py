@@ -1,3 +1,4 @@
+import json
 from datetime import date, timedelta
 from django.db.models import Sum
 from django.views.generic import TemplateView
@@ -41,7 +42,7 @@ class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
             total=Sum('amount')
         ).order_by('-total')
 
-        context['breakdown'] = [
+        breakdown = [
             (
                 abs(item['total']),
                 item['transaction_category__pk'],
@@ -49,15 +50,28 @@ class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
             )
             for item in breakdown
         ]
-        context['breakdown'].append(
+        breakdown.append(
             (
                 uncategorised_breakdown['total'] * -1,
                 0,
                 'Uncategorised'
             )
         )
-        context['breakdown'] = sorted(context['breakdown'],
-                                      key=itemgetter(0),
-                                      reverse=True)
+
+        context['chart_data'] = json.dumps(
+            [
+                {
+                    'label': item[2],
+                    'data': float(item[0])
+                }
+                for item in breakdown
+            ]
+        )
+
+        context['breakdown'] = sorted(
+            breakdown,
+            key=itemgetter(0),
+            reverse=True
+        )
 
         return context
