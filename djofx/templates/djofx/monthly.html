@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block extrajs %}
-<script src="{% static 'djofx/bar.js' %}"></script>
+<script src="{% static 'djofx/monthly.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -12,6 +12,9 @@
 
 <hr />
 
-{% include "djofx/_monthly_breakdown.html" with report=income %}
+<script type="text/javascript">
+  var income = {{ income }};
+  var outgoings = {{ outgoings }};
+</script>
 
 {% endblock %}
