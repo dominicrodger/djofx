@@ -4,12 +4,6 @@
 
 {% block content %}
 
-<a href="{{ account.get_auto_categorisation_url }}" class="btn btn-success btn-lg">
-  {% bootstrap_icon "sunglasses" %} Auto-categorise {{ account }}
-</a>
-
-<hr />
-
 <div id="transaction_list">
   {% include "djofx/_transaction_list.html" %}
 </div>

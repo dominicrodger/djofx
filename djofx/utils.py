@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.db import connection
 from django.db.models import Sum, Count
-from textblob.classifiers import NaiveBayesClassifier
 
 
 def get_training_data(owner):
@@ -27,24 +26,14 @@ def get_training_data(owner):
     return unique_data
 
 
-def get_classifier(owner, training_data=None):
-    if not training_data:
-        training_data = get_training_data(owner)
-
-    return NaiveBayesClassifier(training_data)
-
-
-def autocategorise_transaction(transaction, classifier=None):
+def autocategorise_transaction(transaction):
     training_data = get_training_data(transaction.account.owner)
 
     for payee, category in training_data:
         if payee == transaction.payee:
             return category
 
-    if not classifier:
-        classifier = get_classifier(transaction.account.owner, training_data)
-
-    return classifier.classify(transaction.payee)
+    return None
 
 
 def classify_text(text, classifier):

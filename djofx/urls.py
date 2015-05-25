@@ -12,11 +12,6 @@ urlpatterns = [
         name="djofx_account_unverified"
     ),
     url(
-        r'^account/(?P<pk>\d+)/auto/$',
-        views.account_auto_categorise,
-        name="djofx_account_autocategorise"
-    ),
-    url(
         r'^categories/$',
         views.category_list,
         name="djofx_categories"
@@ -46,12 +41,6 @@ urlpatterns = [
         views.transaction_mark_verified,
         name="djofx_transaction_verify"
     ),
-    url(
-        r'^transaction/(?P<pk>\d+)/reguess/',
-        views.transaction_reguess,
-        name="djofx_transaction_reguess"
-    ),
-    url(r'^accuracy/', views.accuracy, name="djofx_accuracy"),
     url(
         r'^monthly/$',
         views.monthly_breakdown,

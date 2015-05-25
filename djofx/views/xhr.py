@@ -41,36 +41,3 @@ class TransactionMarkVerified(XHRBasePostView):
         )
 
         return HttpResponse('OK')
-
-
-class TransactionReguess(XHRBasePostView):
-    def render(self, request, *args, **kwargs):
-        transaction = models.Transaction.objects.get(
-            account__owner=self.request.user,
-            pk=self.kwargs['pk']
-        )
-
-        classifier = None
-        # classifier = request.session.get('classifier')
-
-        # if classifier is None:
-        #     classifier = get_classifier(request.user)
-        #     request.session['classifier'] = classifier
-
-        transaction.category_verified = False
-        transaction.transaction_category = None
-        transaction.save()
-
-        category = transaction.guess_category(
-            classifier
-        )
-
-        models.Transaction.objects.filter(
-            account__owner=self.request.user,
-            payee=transaction.payee,
-            category_verified=False
-        ).update(
-            transaction_category=category
-        )
-
-        return HttpResponse('OK')

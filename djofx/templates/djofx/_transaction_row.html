@@ -38,13 +38,4 @@
   </div>
   {% endif %}
   {% endif %}
-  <div>
-    <form method="post" action="{% url 'djofx_transaction_reguess' transaction.pk %}" class="update_row">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-info btn-xs">
-        {% bootstrap_icon "thumbs-down" %}
-        Re-guess
-      </button>
-    </form>
-  </div>
 </td>

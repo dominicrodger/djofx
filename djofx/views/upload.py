@@ -6,7 +6,6 @@ from ofxparse import OfxParser
 
 from djofx.forms import OFXForm
 from djofx import models
-from djofx.utils import get_classifier, classify_text
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
@@ -21,8 +20,6 @@ class UploadOFXFileView(PageTitleMixin, UserRequiredMixin, FormView):
 
         valid_transactions = 0
         skipped_transactions = 0
-
-        classifier = get_classifier(self.request.user)
 
         for ofx_account in ofx.accounts:
             account, _ = models.Account.objects.get_or_create(
@@ -39,9 +36,7 @@ class UploadOFXFileView(PageTitleMixin, UserRequiredMixin, FormView):
                         date=transaction.date.date(),
                         payee=transaction.payee,
                         transaction_type=transaction.type,
-                        transaction_category=classify_text(
-                            transaction.payee, classifier
-                        )
+                        transaction_category=None
                     )
                     valid_transactions += 1
                 except IntegrityError:
