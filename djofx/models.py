@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
-from djofx.utils import autocategorise_transaction
 
 
 class Account(models.Model):
@@ -79,15 +78,6 @@ class Transaction(models.Model):
         null=True
     )
     category_verified = models.BooleanField(default=False)
-
-    def guess_category(self, classifier=None):
-        if self.transaction_category:
-            return self.transaction_category
-
-        if not hasattr(self, 'guess_category_'):
-            self.guess_category_ = autocategorise_transaction(self, classifier)
-
-        return self.guess_category_
 
     def absolute_amount(self):
         return self.amount.copy_abs()

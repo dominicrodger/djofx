@@ -14,33 +14,12 @@ def get_training_data(owner):
     data = [(t.payee, t.transaction_category) for t in categorised]
 
     # Avoiding .distinct, because SQLite doesn't support it
-    seen_payees = set()
-    unique_data = []
+    category_mapping = dict()
+
     for payee, category in data:
-        if payee in seen_payees:
-            continue
+        category_mapping[payee] = category
 
-        seen_payees.add(payee)
-        unique_data.append((payee, category))
-
-    return unique_data
-
-
-def autocategorise_transaction(transaction):
-    training_data = get_training_data(transaction.account.owner)
-
-    for payee, category in training_data:
-        if payee == transaction.payee:
-            return category
-
-    return None
-
-
-def classify_text(text, classifier):
-    try:
-        return classifier.classify(text)
-    except ValueError:
-        return None
+    return category_mapping
 
 
 def qs_to_monthly_report(qs, type):

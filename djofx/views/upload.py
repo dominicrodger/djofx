@@ -6,6 +6,7 @@ from ofxparse import OfxParser
 
 from djofx.forms import OFXForm
 from djofx import models
+from djofx.utils import get_training_data
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
@@ -21,14 +22,22 @@ class UploadOFXFileView(PageTitleMixin, UserRequiredMixin, FormView):
         valid_transactions = 0
         skipped_transactions = 0
 
+        training_data = get_training_data(self.request.user)
+
         for ofx_account in ofx.accounts:
             account, _ = models.Account.objects.get_or_create(
                 owner=self.request.user,
                 name=ofx_account.account_id
             )
             transactions = ofx_account.statement.transactions
+
             for transaction in transactions:
                 try:
+                    guessed_category = training_data.get(
+                        transaction.payee,
+                        None
+                    )
+
                     models.Transaction.objects.create(
                         account=account,
                         transaction_key=transaction.id,
@@ -36,7 +45,7 @@ class UploadOFXFileView(PageTitleMixin, UserRequiredMixin, FormView):
                         date=transaction.date.date(),
                         payee=transaction.payee,
                         transaction_type=transaction.type,
-                        transaction_category=None
+                        transaction_category=guessed_category
                     )
                     valid_transactions += 1
                 except IntegrityError:
