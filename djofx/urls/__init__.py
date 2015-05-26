@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 from djofx import views
 
 urlpatterns = [
@@ -11,26 +11,7 @@ urlpatterns = [
         {'unverified': True},
         name="djofx_account_unverified"
     ),
-    url(
-        r'^categories/$',
-        views.category_list,
-        name="djofx_categories"
-    ),
-    url(
-        r'^categories/add/$',
-        views.category_add,
-        name="djofx_category_add"
-    ),
-    url(
-        r'^categories/(?P<pk>\d+)/$',
-        views.category_detail,
-        name="djofx_category"
-    ),
-    url(
-        r'^categories/(?P<pk>\d+)/edit/$',
-        views.category_edit,
-        name="djofx_category_edit"
-    ),
+    url(r'^categories/', include('djofx.urls.categories')),
     url(
         r'^transaction/(?P<pk>\d+)/categorise/',
         views.transaction_categorise,
