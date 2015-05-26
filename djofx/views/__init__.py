@@ -2,10 +2,10 @@ from djofx.views.account import AccountTransactions
 from djofx.views.category import (
     CategoryTransactions,
     CategoryListView,
-    AddCategoryView
+    AddCategoryView,
+    UpdateCategoryView
 )
 from djofx.views.categorise import TransactionCategoriseView
-from djofx.views.edit_category import UpdateCategoryView
 from djofx.views.home import HomePageView
 from djofx.views.monthly import MonthlyTransactionsView
 from djofx.views.upload import UploadOFXFileView

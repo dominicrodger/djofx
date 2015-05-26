@@ -1,7 +1,7 @@
 import json
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, UpdateView
 
 from djofx import models
 from djofx.forms import CategoriseTransactionForm, CategoryForm
@@ -81,3 +81,19 @@ class AddCategoryView(PageTitleMixin, UserRequiredMixin, FormView):
         )
 
         return super(AddCategoryView, self).form_valid(form)
+
+
+class UpdateCategoryView(PageTitleMixin, UserRequiredMixin, UpdateView):
+    model = models.TransactionCategory
+    form_class = CategoryForm
+    template_name = "djofx/edit_category.html"
+    page_title = "Edit category"
+    success_url = reverse_lazy('djofx_categories')
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            'Payment category saved.'
+        )
+
+        return super(UpdateCategoryView, self).form_valid(form)
