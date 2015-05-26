@@ -1,8 +1,11 @@
 import json
-from django.views.generic import ListView
+from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import FormView, ListView
 
 from djofx import models
-from djofx.forms import CategoriseTransactionForm
+from djofx.forms import CategoriseTransactionForm, CategoryForm
+
 from djofx.utils import qs_to_monthly_report
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
@@ -48,3 +51,33 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     def get_page_title(self):
         object = self.get_category()
         return 'Category (%s)' % object.name
+
+
+class CategoryListView(PageTitleMixin, UserRequiredMixin, ListView):
+    model = models.TransactionCategory
+    paginate_by = 50
+    template_name = 'djofx/categories.html'
+    page_title = 'Transaction Categories'
+
+    def get_queryset(self):
+        qs = super(CategoryListView, self).get_queryset()
+        return qs.filter(owner=self.request.user)
+
+
+class AddCategoryView(PageTitleMixin, UserRequiredMixin, FormView):
+    form_class = CategoryForm
+    template_name = "djofx/add_category.html"
+    page_title = "Add category"
+    success_url = reverse_lazy('djofx_home')
+
+    def form_valid(self, form):
+        category = form.save(commit=False)
+        category.owner = self.request.user
+        category.save()
+
+        messages.success(
+            self.request,
+            'Payment category saved.'
+        )
+
+        return super(AddCategoryView, self).form_valid(form)

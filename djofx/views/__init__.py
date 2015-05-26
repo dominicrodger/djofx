@@ -1,7 +1,9 @@
 from djofx.views.account import AccountTransactions
-from djofx.views.add_category import AddCategoryView
-from djofx.views.category import CategoryTransactions
-from djofx.views.categories import CategoryListView
+from djofx.views.category import (
+    CategoryTransactions,
+    CategoryListView,
+    AddCategoryView
+)
 from djofx.views.categorise import TransactionCategoriseView
 from djofx.views.edit_category import UpdateCategoryView
 from djofx.views.home import HomePageView
