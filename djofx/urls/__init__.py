@@ -18,7 +18,7 @@ urlpatterns = [
     ),
     url(
         r'^categories/add/$',
-        views.add_category,
+        views.category_add,
         name="djofx_category_add"
     ),
     url(
@@ -28,7 +28,7 @@ urlpatterns = [
     ),
     url(
         r'^categories/(?P<pk>\d+)/edit/$',
-        views.edit_category,
+        views.category_edit,
         name="djofx_category_edit"
     ),
     url(

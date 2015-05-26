@@ -13,12 +13,12 @@ from djofx.views.xhr import TransactionMarkVerified
 
 
 account_detail = AccountTransactions.as_view()
-add_category = AddCategoryView.as_view()
-transaction_categorise = TransactionCategoriseView.as_view()
-category_list = CategoryListView.as_view()
+category_add = AddCategoryView.as_view()
 category_detail = CategoryTransactions.as_view()
-edit_category = UpdateCategoryView.as_view()
+category_edit = UpdateCategoryView.as_view()
+category_list = CategoryListView.as_view()
 home_page = HomePageView.as_view()
 monthly_breakdown = MonthlyTransactionsView.as_view()
+transaction_categorise = TransactionCategoriseView.as_view()
 transaction_mark_verified = TransactionMarkVerified.as_view()
 upload_ofx_file = UploadOFXFileView.as_view()
