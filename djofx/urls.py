@@ -46,4 +46,5 @@ urlpatterns = [
         views.monthly_breakdown,
         name="djofx_monthly"
     ),
+    url(r'^jsreverse/$', 'django_js_reverse.views.urls_js', name='js_reverse'),
 ]
