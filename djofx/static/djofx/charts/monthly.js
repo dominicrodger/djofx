@@ -1,3 +1,7 @@
+function refresh_transaction_list(data) {
+    $("#transaction_list").html(data);
+}
+
 function plot_bar_chart() {
     var data = [
         {
@@ -23,6 +27,10 @@ function plot_bar_chart() {
     ];
 
     var options = {
+        grid: {
+	    hoverable: true,
+	    clickable: true
+	},
         xaxis: {
             mode: "time",
             timeformat: "%b %Y",
@@ -34,6 +42,28 @@ function plot_bar_chart() {
     };
 
     $.plot("#placeholder", data, options);
+
+    $("#placeholder").bind("plotclick", function (event, pos, item) {
+	if (item) {
+            var thedate = new Date(item.datapoint[0]);
+            var series = item.series.label;
+
+            // January is 0, because Javascript
+            var themonth = thedate.getMonth() + 1;
+            if (themonth < 10) {
+                themonth = '0' + themonth;
+            }
+            console.log(item.datapoint[0]);
+            var theyear = '' + thedate.getFullYear();
+            var theurl = Urls.djofx_transaction_list(series, theyear, themonth)
+            console.log(theurl);
+            $.ajax({
+                type: "GET",
+                url: theurl,
+                success: refresh_transaction_list
+            });
+	}
+    });
 }
 
 $(document).ready(plot_bar_chart);

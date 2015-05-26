@@ -20,3 +20,8 @@ class XHRBaseView(View):
 class XHRBasePostView(XHRBaseView):
     def post(self, request, *args, **kwargs):
         return self.handle(request, *args, **kwargs)
+
+
+class XHRBaseGetView(XHRBaseView):
+    def get(self, request, *args, **kwargs):
+        return self.handle(request, *args, **kwargs)
