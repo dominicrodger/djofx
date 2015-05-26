@@ -5,7 +5,7 @@ from djofx.forms import CategoriseTransactionForm
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
+class AccountTransactionsView(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
     paginate_by = 50
 
@@ -16,7 +16,7 @@ class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
             return ['djofx/_transaction_list.html', ]
 
     def get_context_data(self, **kwargs):
-        ctx = super(AccountTransactions, self).get_context_data(**kwargs)
+        ctx = super(AccountTransactionsView, self).get_context_data(**kwargs)
         ctx['account'] = self.get_account()
         ctx['categorise_form'] = CategoriseTransactionForm()
 
@@ -29,7 +29,7 @@ class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
         )
 
     def get_queryset(self):
-        qs = super(AccountTransactions, self).get_queryset()
+        qs = super(AccountTransactionsView, self).get_queryset()
         qs = qs.filter(
             account=self.get_account()
         )
@@ -45,4 +45,3 @@ class AccountTransactions(PageTitleMixin, UserRequiredMixin, ListView):
     def get_page_title(self):
         object = self.get_account()
         return 'Account (%s)' % object.name
-account_detail = AccountTransactions.as_view()

@@ -4,7 +4,7 @@ from djofx import models
 from djofx.views.xhr.base import XHRBasePostView
 
 
-class TransactionMarkVerified(XHRBasePostView):
+class TransactionMarkVerifiedView(XHRBasePostView):
     def render(self, request, *args, **kwargs):
         transaction = models.Transaction.objects.get(
             account__owner=self.request.user,

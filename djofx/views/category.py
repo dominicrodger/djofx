@@ -10,7 +10,7 @@ from djofx.utils import qs_to_monthly_report
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
+class CategoryTransactionsView(PageTitleMixin, UserRequiredMixin, ListView):
     model = models.Transaction
     paginate_by = 50
 
@@ -21,7 +21,7 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
             return ['djofx/_transaction_list.html', ]
 
     def get_context_data(self, **kwargs):
-        ctx = super(CategoryTransactions, self).get_context_data(**kwargs)
+        ctx = super(CategoryTransactionsView, self).get_context_data(**kwargs)
         category = self.get_category()
         ctx['category'] = category
         ctx['categorise_form'] = CategoriseTransactionForm()
@@ -41,7 +41,7 @@ class CategoryTransactions(PageTitleMixin, UserRequiredMixin, ListView):
         )
 
     def get_queryset(self):
-        qs = super(CategoryTransactions, self).get_queryset()
+        qs = super(CategoryTransactionsView, self).get_queryset()
         qs = qs.filter(
             transaction_category=self.get_category()
         )
