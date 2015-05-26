@@ -32,8 +32,8 @@ urlpatterns = [
         name="djofx_category_edit"
     ),
     url(
-        r'^categorise/(?P<pk>\d+)/',
-        views.categorise,
+        r'^transaction/(?P<pk>\d+)/categorise/',
+        views.transaction_categorise,
         name="djofx_categorise"
     ),
     url(

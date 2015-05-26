@@ -8,7 +8,7 @@ from djofx import models
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 
 
-class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
+class TransactionCategoriseView(PageTitleMixin, UserRequiredMixin, FormView):
     form_class = CategoriseTransactionForm
     template_name = "djofx/categorise.html"
     page_title = "Categorise payment"
@@ -25,7 +25,7 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
         except models.Transaction.DoesNotExist:
             raise Http404("Transaction not found.")
 
-        return super(CategoriseTransactionView, self).dispatch(
+        return super(TransactionCategoriseView, self).dispatch(
             request,
             *args,
             **kwargs
@@ -40,7 +40,7 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
         return self.transaction_
 
     def get_context_data(self, **kwargs):
-        ctx = super(CategoriseTransactionView, self).get_context_data(**kwargs)
+        ctx = super(TransactionCategoriseView, self).get_context_data(**kwargs)
         ctx['transaction'] = self.get_transaction()
         num_similar = self.get_similar_transactions().count()
 
@@ -97,7 +97,7 @@ class CategoriseTransactionView(PageTitleMixin, UserRequiredMixin, FormView):
         else:
             self.success_url = reverse('djofx_home')
 
-        return super(CategoriseTransactionView, self).form_valid(form)
+        return super(TransactionCategoriseView, self).form_valid(form)
 
     def get_success_url(self):
         return self.success_url
