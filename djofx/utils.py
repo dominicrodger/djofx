@@ -85,13 +85,15 @@ def get_spending_by_category(early_date_limit, late_date_limit):
         )
         for item in breakdown
     ]
-    breakdown.append(
-        (
-            uncategorised_breakdown['total'] * -1,
-            0,
-            'Uncategorised'
+
+    if uncategorised_breakdown['total']:
+        breakdown.append(
+            (
+                uncategorised_breakdown['total'] * -1,
+                0,
+                'Uncategorised'
+            )
         )
-    )
 
     breakdown = sorted(
         breakdown,
