@@ -1,11 +1,13 @@
-import json
 from datetime import date, timedelta
-from django.db.models import Sum
 from django.views.generic import TemplateView
+
 from djofx.forms import OFXForm
+from djofx.utils import (
+    get_spending_by_category,
+    spending_by_category_to_flot
+)
 from djofx.views.base import PageTitleMixin, UserRequiredMixin
 from djofx import models
-from operator import itemgetter
 
 
 class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
@@ -19,59 +21,14 @@ class HomePageView(PageTitleMixin, UserRequiredMixin, TemplateView):
 
         context['form'] = OFXForm()
 
-        cutoff = date.today() - timedelta(days=120)
-
-        uncategorised_breakdown = models.Transaction.objects.filter(
-            amount__lt=0,
-            transaction_category__isnull=True,
-            date__gte=cutoff
-        ).aggregate(
-            total=Sum('amount')
+        breakdown = get_spending_by_category(
+            date.today() - timedelta(days=120),
+            date.today()
         )
 
-        out = models.TransactionCategory.OUTGOINGS
-
-        breakdown = models.Transaction.objects.filter(
-            amount__lt=0,
-            transaction_category__category_type=out,
-            date__gte=cutoff
-        ).values(
-            'transaction_category__pk',
-            'transaction_category__name'
-        ).annotate(
-            total=Sum('amount')
-        ).order_by('-total')
-
-        breakdown = [
-            (
-                abs(item['total']),
-                item['transaction_category__pk'],
-                item['transaction_category__name']
-            )
-            for item in breakdown
-        ]
-        breakdown.append(
-            (
-                uncategorised_breakdown['total'] * -1,
-                0,
-                'Uncategorised'
-            )
+        context['chart_data'] = spending_by_category_to_flot(
+            breakdown
         )
-
-        context['chart_data'] = json.dumps(
-            [
-                {
-                    'label': item[2],
-                    'data': float(item[0])
-                }
-                for item in breakdown
-            ]
-        )
-
-        context['breakdown'] = sorted(
-            breakdown,
-            key=itemgetter(0),
-            reverse=True
-        )
+        context['breakdown'] = breakdown
 
         return context
