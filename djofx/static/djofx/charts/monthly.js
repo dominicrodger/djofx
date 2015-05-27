@@ -42,7 +42,27 @@ function handle_plot_click(event, pos, item) {
         success: refresh_transaction_list
     });
 
+    var months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+
+    var pretty_date = months[thedate.getMonth()] + " " + theyear;
+
     $("#pie_placeholder").html("");
+    $("#transaction_list_header").html("<h3>" + series + " transactions for " + pretty_date + "</h3>");
+
+    $("#transaction_pie_header").html("<h3>" + series + " for " + pretty_date + " <small>" + format_currency_value(item.datapoint[1]) + "</small></h3>");
 
     if (series === "Outgoings") {
         var breakdown_url = Urls.djofx_monthly_breakdown(theyear, themonth)
