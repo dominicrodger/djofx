@@ -53,10 +53,8 @@ function plot_bar_chart() {
             if (themonth < 10) {
                 themonth = '0' + themonth;
             }
-            console.log(item.datapoint[0]);
             var theyear = '' + thedate.getFullYear();
             var theurl = Urls.djofx_transaction_list(series, theyear, themonth)
-            console.log(theurl);
             $.ajax({
                 type: "GET",
                 url: theurl,
