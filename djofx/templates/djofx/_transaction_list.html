@@ -6,7 +6,9 @@
     <th>Payee</th>
     <th>Amount</th>
     <th>Category</th>
+    {% if not hide_controls %}
     <th></th>
+    {% endif %}
   </tr>
   {% for transaction in object_list %}
   <tr>

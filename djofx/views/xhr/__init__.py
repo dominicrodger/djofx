@@ -50,6 +50,7 @@ class TransactionListView(XHRBaseGetView):
         context = {}
         context['object_list'] = transactions
         context['page_obj'] = None
+        context['hide_controls'] = True
 
         return render_to_response(
             'djofx/_transaction_list.html',

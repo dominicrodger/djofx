@@ -26,6 +26,7 @@
   </button>
   {% endif %}
 </td>
+{% if not hide_controls %}
 <td>
   {% if not transaction.category_verified %}
   {% if transaction.transaction_category %}
@@ -41,3 +42,4 @@
   {% endif %}
   {% endif %}
 </td>
+{% endif %}
