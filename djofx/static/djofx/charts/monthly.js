@@ -2,6 +2,25 @@ function refresh_transaction_list(data) {
     $("#transaction_list").html(data);
 }
 
+function refresh_spending_breakdown(data) {
+    var options = {
+        series: {
+            pie: {
+                show: true,
+                innerRadius: 0.5,
+                combine: {
+                    color: '#999',
+                    threshold: 0.04
+                }
+            }
+        },
+        legend: {
+            show: false
+        }
+    };
+    $.plot($("#pie_placeholder"), data, options);
+}
+
 function plot_bar_chart() {
     var data = [
         {
@@ -60,6 +79,17 @@ function plot_bar_chart() {
                 url: transactions_url,
                 success: refresh_transaction_list
             });
+
+            $("#pie_placeholder").html("");
+
+            if (series === "Outgoings") {
+                var breakdown_url = Urls.djofx_monthly_breakdown(theyear, themonth)
+                $.ajax({
+                    dataType: "json",
+                    url: breakdown_url,
+                    success: refresh_spending_breakdown
+                });
+            }
 	}
     });
 }

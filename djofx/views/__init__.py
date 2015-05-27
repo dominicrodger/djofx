@@ -11,7 +11,8 @@ from djofx.views.monthly import MonthlyTransactionsView
 from djofx.views.upload import UploadOFXFileView
 from djofx.views.xhr import (
     TransactionMarkVerifiedView,
-    TransactionListView
+    TransactionListView,
+    MonthlySpendingBreakdownView
 )
 
 
@@ -22,6 +23,7 @@ category_edit = UpdateCategoryView.as_view()
 category_list = CategoryListView.as_view()
 home_page = HomePageView.as_view()
 monthly_breakdown = MonthlyTransactionsView.as_view()
+monthly_spending_breakdown = MonthlySpendingBreakdownView.as_view()
 transaction_categorise = TransactionCategoriseView.as_view()
 transaction_list = TransactionListView.as_view()
 transaction_mark_verified = TransactionMarkVerifiedView.as_view()

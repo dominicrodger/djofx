@@ -1,8 +1,14 @@
+import calendar
+from datetime import date
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from djofx import models
+from djofx.utils import (
+    get_spending_by_category,
+    spending_by_category_to_flot
+)
 from djofx.views.xhr.base import XHRBaseGetView, XHRBasePostView
 
 
@@ -50,3 +56,18 @@ class TransactionListView(XHRBaseGetView):
             context,
             context_instance=RequestContext(request)
         )
+
+
+class MonthlySpendingBreakdownView(XHRBaseGetView):
+    def render(self, request, *args, **kwargs):
+        month = int(kwargs['month'])
+        year = int(kwargs['year'])
+        _, last_of_month = calendar.monthrange(year, month)
+
+        start = date(year, month, 1)
+        end = date(year, month, last_of_month)
+
+        breakdown = get_spending_by_category(start, end)
+        flot = spending_by_category_to_flot(breakdown)
+
+        return HttpResponse(flot)
