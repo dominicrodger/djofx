@@ -54,10 +54,10 @@ function plot_bar_chart() {
                 themonth = '0' + themonth;
             }
             var theyear = '' + thedate.getFullYear();
-            var theurl = Urls.djofx_transaction_list(series, theyear, themonth)
+            var transactions_url = Urls.djofx_transaction_list(series, theyear, themonth)
             $.ajax({
                 type: "GET",
-                url: theurl,
+                url: transactions_url,
                 success: refresh_transaction_list
             });
 	}
