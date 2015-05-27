@@ -21,6 +21,37 @@ function refresh_spending_breakdown(data) {
     $.plot($("#pie_placeholder"), data, options);
 }
 
+function handle_plot_click(event, pos, item) {
+    if (item) {
+        var thedate = new Date(item.datapoint[0]);
+        var series = item.series.label;
+
+        // January is 0, because Javascript
+        var themonth = thedate.getMonth() + 1;
+        if (themonth < 10) {
+            themonth = '0' + themonth;
+        }
+        var theyear = '' + thedate.getFullYear();
+        var transactions_url = Urls.djofx_transaction_list(series, theyear, themonth)
+        $.ajax({
+            type: "GET",
+            url: transactions_url,
+            success: refresh_transaction_list
+        });
+
+        $("#pie_placeholder").html("");
+
+        if (series === "Outgoings") {
+            var breakdown_url = Urls.djofx_monthly_breakdown(theyear, themonth)
+            $.ajax({
+                dataType: "json",
+                url: breakdown_url,
+                success: refresh_spending_breakdown
+            });
+        }
+    }
+}
+
 function plot_bar_chart() {
     var data = [
         {
@@ -62,36 +93,7 @@ function plot_bar_chart() {
 
     $.plot("#placeholder", data, options);
 
-    $("#placeholder").bind("plotclick", function (event, pos, item) {
-	if (item) {
-            var thedate = new Date(item.datapoint[0]);
-            var series = item.series.label;
-
-            // January is 0, because Javascript
-            var themonth = thedate.getMonth() + 1;
-            if (themonth < 10) {
-                themonth = '0' + themonth;
-            }
-            var theyear = '' + thedate.getFullYear();
-            var transactions_url = Urls.djofx_transaction_list(series, theyear, themonth)
-            $.ajax({
-                type: "GET",
-                url: transactions_url,
-                success: refresh_transaction_list
-            });
-
-            $("#pie_placeholder").html("");
-
-            if (series === "Outgoings") {
-                var breakdown_url = Urls.djofx_monthly_breakdown(theyear, themonth)
-                $.ajax({
-                    dataType: "json",
-                    url: breakdown_url,
-                    success: refresh_spending_breakdown
-                });
-            }
-	}
-    });
+    $("#placeholder").bind("plotclick", handle_plot_click);
 }
 
 $(document).ready(plot_bar_chart);
